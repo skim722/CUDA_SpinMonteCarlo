@@ -1,0 +1,8 @@
+# This is for the newer compiler on jinx nodes
+CUDA_PATH="/usr/local/cuda-6.5"
+NVCC="${CUDA_PATH}/bin/nvcc"
+CFLAGS="-L${CUDA_PATH}/lib64 -Wl,-rpath -Wl,${CUDA_PATH}/lib64 -lcudart -std=c++0x"
+NVCCFLAGS="-arch=compute_20 -code=sm_20 -I${CUDA_SDK_PATH}/C/common/inc --ptxas-options=-v -O3"
+
+${NVCC} ${NVCCFLAGS} tobyNew.cu -o toby.o
+

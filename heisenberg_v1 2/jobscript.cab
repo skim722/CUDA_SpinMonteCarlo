@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# to submit this job, run:    msub jobscript.cab
+#    show job status     :    showq | grep `whoami`
+#    cancel job          :    canceljob <number>
+
+
+##### Example Moab Job Control Script
+##### These lines are for Moab
+#MSUB -l nodes=1
+#MSUB -l partition=cab
+#MSUB -V
+
+
+##### use this for the debug queue, max 30 min runtime!
+#MSUB -q pdebug
+#MSUB -l walltime=0:30:00
+
+##### use this for the normal queue, adjust time if needed
+#     #MSUB -q pbatch
+#     #MSUB -l walltime=4:00:00
+
+
+NP=$(($SLURM_NNODES * $SLURM_TASKS_PER_NODE))
+
+export OMP_NUM_THREADS=1
+cd $SLURM_SUBMIT_DIR 
+
+srun -n$NP -k -W 0 --mpi=none ./run_multi.sh
